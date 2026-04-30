@@ -26,7 +26,7 @@ case "$CMD" in
         elif [ "$PKG" = "all" ]; then
             for pkg in pkgs/*/*; do
                 echo "Building ${pkg#pkgs/}..."
-		(cd "$PKG_DIR" && bash "$pkg/build.sh")
+		(cd "$PKG_DIR" && bash "$pkg/pkgrootbuild.sh")
             done
         else
             PKG_DIR="pkgs/$PKG"
@@ -35,7 +35,7 @@ case "$CMD" in
                 exit 1
             fi
             echo "Building $PKG..."
-            bash "$PKG_DIR/build.sh"
+            bash "$PKG_DIR/pkgrootbuild.sh"
         fi
         ;;
     *)
