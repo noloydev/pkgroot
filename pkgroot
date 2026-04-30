@@ -1,0 +1,44 @@
+#!/bin/bash
+
+set -e
+
+usage() {
+    echo "Usage pkgroot build <category/package>"
+    echo ""
+    echo "Commands:"
+    echo "   build <package>   Build a specific package"
+    echo "   build all         Build all packages"
+    echo ""
+    echo "Available packages:"
+    for pkg in pkgs/*/*; do
+        echo "   ${pkg#pkgs}"
+    done
+    exit 1
+}
+
+CMD=$1
+PKG=$2
+
+case "$CMD" in
+    build)
+        if [ -z "$PKG" ]; then
+            usage
+        elif [ "$PKG" = "all" ]; then
+            for pkg in pkgs/*/*; do
+                echo "Building ${pkg#pkgs/}..."
+		(cd "$PKG_DIR" && bash "$pkg/build.sh")
+            done
+        else
+            PKG_DIR="pkgs/$PKG"
+            if [ ! -d "$PKG_DIR" ]; then
+                echo "Error: package '$PKG' not found"
+                exit 1
+            fi
+            echo "Building $PKG..."
+            bash "$PKG_DIR/build.sh"
+        fi
+        ;;
+    *)
+        usage
+        ;;
+esac
