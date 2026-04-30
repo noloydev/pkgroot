@@ -13,6 +13,6 @@ cp ${TARBALL} ${ORIG}
 tar xf ${TARBALL}
 cp -r debian emacs-${VERSION}/
 
-cp emacs-${VERSION}
+cd emacs-${VERSION}
 sudo apt build-dep ./
 debuild -us -uc -b
